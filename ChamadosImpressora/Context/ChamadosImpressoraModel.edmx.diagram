@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="12398cb8d1764bd89027627e8b03c393" Name="Diagram1">
+        <EntityTypeShape EntityType="dbChamadosImpressoraModel.tblCategoriaChamado" Width="1.5" PointX="3.75" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbChamadosImpressoraModel.tblDepartamento" Width="1.5" PointX="0.75" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbChamadosImpressoraModel.tblImpressora" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbChamadosImpressoraModel.tblLocacao" Width="1.5" PointX="3" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbChamadosImpressoraModel.tblRegistroChamados" Width="1.5" PointX="6" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbChamadosImpressoraModel.tblSeccional" Width="1.5" PointX="0.75" PointY="7.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbChamadosImpressoraModel.tblStatus" Width="1.5" PointX="3.75" PointY="7.625" IsExpanded="true" />
+        <AssociationConnector Association="dbChamadosImpressoraModel.FK_ID_Categoria_tblRegistroChamados_tblCategoriaChamado" ManuallyRouted="false" />
+        <AssociationConnector Association="dbChamadosImpressoraModel.FK_ID_Departamento_tblLocacao_tblDepartamento" ManuallyRouted="false" />
+        <AssociationConnector Association="dbChamadosImpressoraModel.FK_ID_Departamento_tblRegistroChamados_tblDepartamento" ManuallyRouted="false" />
+        <AssociationConnector Association="dbChamadosImpressoraModel.FK_ID_Departamento_tblLocacao_tblImpressora" ManuallyRouted="false" />
+        <AssociationConnector Association="dbChamadosImpressoraModel.FK_ID_Departamento_tblRegistroChamados_tblImpressora" ManuallyRouted="false" />
+        <AssociationConnector Association="dbChamadosImpressoraModel.FK_ID_Seccional_tblLocacao_tblSeccional" ManuallyRouted="false" />
+        <AssociationConnector Association="dbChamadosImpressoraModel.FK_ID_Seccional_tblRegistroChamados_tblSeccional" ManuallyRouted="false" />
+        <AssociationConnector Association="dbChamadosImpressoraModel.FK_ID_StatusChamado_tblRegistroChamados_tblStatus" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,751 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="dbChamadosImpressoraModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tblCategoriaChamado">
+          <Key>
+            <PropertyRef Name="ID_Categoria" />
+          </Key>
+          <Property Name="ID_Categoria" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descricao" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblDepartamento">
+          <Key>
+            <PropertyRef Name="ID_Departamento" />
+          </Key>
+          <Property Name="ID_Departamento" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nome" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="DataDeCadastro" Type="datetime" />
+          <Property Name="DataUltimaAlteracao" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tblImpressora">
+          <Key>
+            <PropertyRef Name="ID_Impressora" />
+          </Key>
+          <Property Name="ID_Impressora" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Modelo" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="DataDeCadastro" Type="datetime" />
+          <Property Name="DataUltimaAlteracao" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tblLocacao">
+          <Key>
+            <PropertyRef Name="ID_Locacao" />
+          </Key>
+          <Property Name="ID_Locacao" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_Seccional" Type="int" Nullable="false" />
+          <Property Name="ID_Departamento" Type="int" Nullable="false" />
+          <Property Name="ID_Impressora" Type="int" Nullable="false" />
+          <Property Name="DataDeCadastro" Type="datetime" />
+          <Property Name="DataUltimaAlteracao" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tblRegistroChamados">
+          <Key>
+            <PropertyRef Name="ID_Chamado" />
+          </Key>
+          <Property Name="ID_Chamado" Type="int" Nullable="false" />
+          <Property Name="ID_Seccional" Type="int" Nullable="false" />
+          <Property Name="ID_Departamento" Type="int" Nullable="false" />
+          <Property Name="ID_Impressora" Type="int" Nullable="false" />
+          <Property Name="ID_Categoria" Type="int" Nullable="false" />
+          <Property Name="Descricao" Type="varchar(max)" Nullable="false" />
+          <Property Name="Observacao" Type="varchar(max)" />
+          <Property Name="ID_Status" Type="bit" Nullable="false" />
+          <Property Name="DataAberturaChamado" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tblSeccional">
+          <Key>
+            <PropertyRef Name="ID_Seccional" />
+          </Key>
+          <Property Name="ID_Seccional" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nome" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="DataDeCadastro" Type="datetime" />
+          <Property Name="DataUltimaAlteracao" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tblStatus">
+          <Key>
+            <PropertyRef Name="ID_Status" />
+          </Key>
+          <Property Name="ID_Status" Type="bit" Nullable="false" />
+          <Property Name="Descricao" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_ID_Categoria_tblRegistroChamados_tblCategoriaChamado">
+          <End Role="tblCategoriaChamado" Type="Self.tblCategoriaChamado" Multiplicity="1" />
+          <End Role="tblRegistroChamados" Type="Self.tblRegistroChamados" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCategoriaChamado">
+              <PropertyRef Name="ID_Categoria" />
+            </Principal>
+            <Dependent Role="tblRegistroChamados">
+              <PropertyRef Name="ID_Categoria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ID_Departamento_tblLocacao_tblDepartamento">
+          <End Role="tblDepartamento" Type="Self.tblDepartamento" Multiplicity="1" />
+          <End Role="tblLocacao" Type="Self.tblLocacao" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblDepartamento">
+              <PropertyRef Name="ID_Departamento" />
+            </Principal>
+            <Dependent Role="tblLocacao">
+              <PropertyRef Name="ID_Departamento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ID_Departamento_tblLocacao_tblImpressora">
+          <End Role="tblImpressora" Type="Self.tblImpressora" Multiplicity="1" />
+          <End Role="tblLocacao" Type="Self.tblLocacao" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblImpressora">
+              <PropertyRef Name="ID_Impressora" />
+            </Principal>
+            <Dependent Role="tblLocacao">
+              <PropertyRef Name="ID_Impressora" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ID_Departamento_tblRegistroChamados_tblDepartamento">
+          <End Role="tblDepartamento" Type="Self.tblDepartamento" Multiplicity="1" />
+          <End Role="tblRegistroChamados" Type="Self.tblRegistroChamados" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblDepartamento">
+              <PropertyRef Name="ID_Departamento" />
+            </Principal>
+            <Dependent Role="tblRegistroChamados">
+              <PropertyRef Name="ID_Departamento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ID_Departamento_tblRegistroChamados_tblImpressora">
+          <End Role="tblImpressora" Type="Self.tblImpressora" Multiplicity="1" />
+          <End Role="tblRegistroChamados" Type="Self.tblRegistroChamados" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblImpressora">
+              <PropertyRef Name="ID_Impressora" />
+            </Principal>
+            <Dependent Role="tblRegistroChamados">
+              <PropertyRef Name="ID_Impressora" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ID_Seccional_tblLocacao_tblSeccional">
+          <End Role="tblSeccional" Type="Self.tblSeccional" Multiplicity="1" />
+          <End Role="tblLocacao" Type="Self.tblLocacao" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblSeccional">
+              <PropertyRef Name="ID_Seccional" />
+            </Principal>
+            <Dependent Role="tblLocacao">
+              <PropertyRef Name="ID_Seccional" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ID_Seccional_tblRegistroChamados_tblSeccional">
+          <End Role="tblSeccional" Type="Self.tblSeccional" Multiplicity="1" />
+          <End Role="tblRegistroChamados" Type="Self.tblRegistroChamados" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblSeccional">
+              <PropertyRef Name="ID_Seccional" />
+            </Principal>
+            <Dependent Role="tblRegistroChamados">
+              <PropertyRef Name="ID_Seccional" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ID_StatusChamado_tblRegistroChamados_tblStatus">
+          <End Role="tblStatus" Type="Self.tblStatus" Multiplicity="1" />
+          <End Role="tblRegistroChamados" Type="Self.tblRegistroChamados" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblStatus">
+              <PropertyRef Name="ID_Status" />
+            </Principal>
+            <Dependent Role="tblRegistroChamados">
+              <PropertyRef Name="ID_Status" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="spBuscaCategoriaChamado" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="spBuscaDepartamentosPorSeccional" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID_Seccional" Type="int" Mode="In" />
+        </Function>
+        <Function Name="spBuscaImpressorasPorDepartamento" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID_Seccional" Type="int" Mode="In" />
+          <Parameter Name="ID_Departamento" Type="int" Mode="In" />
+        </Function>
+        <Function Name="spBuscaSeccionais" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="spConsultaChamados" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="spConsultaChamadosPorId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID_Chamado" Type="int" Mode="In" />
+        </Function>
+        <Function Name="spConsultaChamadosPorNomeSeccional" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Nome" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="spFinalizaChamado" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID_Chamado" Type="int" Mode="In" />
+          <Parameter Name="Observacao" Type="varchar(max)" Mode="In" />
+        </Function>
+        <Function Name="spRegistraChamado" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID_Chamado" Type="int" Mode="In" />
+          <Parameter Name="ID_Seccional" Type="int" Mode="In" />
+          <Parameter Name="ID_Departamento" Type="int" Mode="In" />
+          <Parameter Name="ID_Impressora" Type="int" Mode="In" />
+          <Parameter Name="ID_CategoriaChamado" Type="int" Mode="In" />
+          <Parameter Name="DescricaoChamado" Type="varchar(max)" Mode="In" />
+        </Function>
+        <EntityContainer Name="dbChamadosImpressoraModelStoreContainer">
+          <EntitySet Name="tblCategoriaChamado" EntityType="Self.tblCategoriaChamado" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblDepartamento" EntityType="Self.tblDepartamento" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblImpressora" EntityType="Self.tblImpressora" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblLocacao" EntityType="Self.tblLocacao" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblRegistroChamados" EntityType="Self.tblRegistroChamados" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblSeccional" EntityType="Self.tblSeccional" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblStatus" EntityType="Self.tblStatus" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_ID_Categoria_tblRegistroChamados_tblCategoriaChamado" Association="Self.FK_ID_Categoria_tblRegistroChamados_tblCategoriaChamado">
+            <End Role="tblCategoriaChamado" EntitySet="tblCategoriaChamado" />
+            <End Role="tblRegistroChamados" EntitySet="tblRegistroChamados" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ID_Departamento_tblLocacao_tblDepartamento" Association="Self.FK_ID_Departamento_tblLocacao_tblDepartamento">
+            <End Role="tblDepartamento" EntitySet="tblDepartamento" />
+            <End Role="tblLocacao" EntitySet="tblLocacao" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ID_Departamento_tblLocacao_tblImpressora" Association="Self.FK_ID_Departamento_tblLocacao_tblImpressora">
+            <End Role="tblImpressora" EntitySet="tblImpressora" />
+            <End Role="tblLocacao" EntitySet="tblLocacao" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ID_Departamento_tblRegistroChamados_tblDepartamento" Association="Self.FK_ID_Departamento_tblRegistroChamados_tblDepartamento">
+            <End Role="tblDepartamento" EntitySet="tblDepartamento" />
+            <End Role="tblRegistroChamados" EntitySet="tblRegistroChamados" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ID_Departamento_tblRegistroChamados_tblImpressora" Association="Self.FK_ID_Departamento_tblRegistroChamados_tblImpressora">
+            <End Role="tblImpressora" EntitySet="tblImpressora" />
+            <End Role="tblRegistroChamados" EntitySet="tblRegistroChamados" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ID_Seccional_tblLocacao_tblSeccional" Association="Self.FK_ID_Seccional_tblLocacao_tblSeccional">
+            <End Role="tblSeccional" EntitySet="tblSeccional" />
+            <End Role="tblLocacao" EntitySet="tblLocacao" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ID_Seccional_tblRegistroChamados_tblSeccional" Association="Self.FK_ID_Seccional_tblRegistroChamados_tblSeccional">
+            <End Role="tblSeccional" EntitySet="tblSeccional" />
+            <End Role="tblRegistroChamados" EntitySet="tblRegistroChamados" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ID_StatusChamado_tblRegistroChamados_tblStatus" Association="Self.FK_ID_StatusChamado_tblRegistroChamados_tblStatus">
+            <End Role="tblStatus" EntitySet="tblStatus" />
+            <End Role="tblRegistroChamados" EntitySet="tblRegistroChamados" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="dbChamadosImpressoraModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="tblCategoriaChamado">
+          <Key>
+            <PropertyRef Name="ID_Categoria" />
+          </Key>
+          <Property Name="ID_Categoria" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descricao" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="tblRegistroChamados" Relationship="Self.FK_ID_Categoria_tblRegistroChamados_tblCategoriaChamado" FromRole="tblCategoriaChamado" ToRole="tblRegistroChamados" />
+        </EntityType>
+        <EntityType Name="tblDepartamento">
+          <Key>
+            <PropertyRef Name="ID_Departamento" />
+          </Key>
+          <Property Name="ID_Departamento" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nome" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DataDeCadastro" Type="DateTime" Precision="3" />
+          <Property Name="DataUltimaAlteracao" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="tblLocacao" Relationship="Self.FK_ID_Departamento_tblLocacao_tblDepartamento" FromRole="tblDepartamento" ToRole="tblLocacao" />
+          <NavigationProperty Name="tblRegistroChamados" Relationship="Self.FK_ID_Departamento_tblRegistroChamados_tblDepartamento" FromRole="tblDepartamento" ToRole="tblRegistroChamados" />
+        </EntityType>
+        <EntityType Name="tblImpressora">
+          <Key>
+            <PropertyRef Name="ID_Impressora" />
+          </Key>
+          <Property Name="ID_Impressora" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Modelo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DataDeCadastro" Type="DateTime" Precision="3" />
+          <Property Name="DataUltimaAlteracao" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="tblLocacao" Relationship="Self.FK_ID_Departamento_tblLocacao_tblImpressora" FromRole="tblImpressora" ToRole="tblLocacao" />
+          <NavigationProperty Name="tblRegistroChamados" Relationship="Self.FK_ID_Departamento_tblRegistroChamados_tblImpressora" FromRole="tblImpressora" ToRole="tblRegistroChamados" />
+        </EntityType>
+        <EntityType Name="tblLocacao">
+          <Key>
+            <PropertyRef Name="ID_Locacao" />
+          </Key>
+          <Property Name="ID_Locacao" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_Seccional" Type="Int32" Nullable="false" />
+          <Property Name="ID_Departamento" Type="Int32" Nullable="false" />
+          <Property Name="ID_Impressora" Type="Int32" Nullable="false" />
+          <Property Name="DataDeCadastro" Type="DateTime" Precision="3" />
+          <Property Name="DataUltimaAlteracao" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="tblDepartamento" Relationship="Self.FK_ID_Departamento_tblLocacao_tblDepartamento" FromRole="tblLocacao" ToRole="tblDepartamento" />
+          <NavigationProperty Name="tblImpressora" Relationship="Self.FK_ID_Departamento_tblLocacao_tblImpressora" FromRole="tblLocacao" ToRole="tblImpressora" />
+          <NavigationProperty Name="tblSeccional" Relationship="Self.FK_ID_Seccional_tblLocacao_tblSeccional" FromRole="tblLocacao" ToRole="tblSeccional" />
+        </EntityType>
+        <EntityType Name="tblRegistroChamados">
+          <Key>
+            <PropertyRef Name="ID_Chamado" />
+          </Key>
+          <Property Name="ID_Chamado" Type="Int32" Nullable="false" />
+          <Property Name="ID_Seccional" Type="Int32" Nullable="false" />
+          <Property Name="ID_Departamento" Type="Int32" Nullable="false" />
+          <Property Name="ID_Impressora" Type="Int32" Nullable="false" />
+          <Property Name="ID_Categoria" Type="Int32" Nullable="false" />
+          <Property Name="Descricao" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Observacao" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ID_Status" Type="Boolean" Nullable="false" />
+          <Property Name="DataAberturaChamado" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="tblCategoriaChamado" Relationship="Self.FK_ID_Categoria_tblRegistroChamados_tblCategoriaChamado" FromRole="tblRegistroChamados" ToRole="tblCategoriaChamado" />
+          <NavigationProperty Name="tblDepartamento" Relationship="Self.FK_ID_Departamento_tblRegistroChamados_tblDepartamento" FromRole="tblRegistroChamados" ToRole="tblDepartamento" />
+          <NavigationProperty Name="tblImpressora" Relationship="Self.FK_ID_Departamento_tblRegistroChamados_tblImpressora" FromRole="tblRegistroChamados" ToRole="tblImpressora" />
+          <NavigationProperty Name="tblSeccional" Relationship="Self.FK_ID_Seccional_tblRegistroChamados_tblSeccional" FromRole="tblRegistroChamados" ToRole="tblSeccional" />
+          <NavigationProperty Name="tblStatus" Relationship="Self.FK_ID_StatusChamado_tblRegistroChamados_tblStatus" FromRole="tblRegistroChamados" ToRole="tblStatus" />
+        </EntityType>
+        <EntityType Name="tblSeccional">
+          <Key>
+            <PropertyRef Name="ID_Seccional" />
+          </Key>
+          <Property Name="ID_Seccional" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nome" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DataDeCadastro" Type="DateTime" Precision="3" />
+          <Property Name="DataUltimaAlteracao" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="tblLocacao" Relationship="Self.FK_ID_Seccional_tblLocacao_tblSeccional" FromRole="tblSeccional" ToRole="tblLocacao" />
+          <NavigationProperty Name="tblRegistroChamados" Relationship="Self.FK_ID_Seccional_tblRegistroChamados_tblSeccional" FromRole="tblSeccional" ToRole="tblRegistroChamados" />
+        </EntityType>
+        <EntityType Name="tblStatus">
+          <Key>
+            <PropertyRef Name="ID_Status" />
+          </Key>
+          <Property Name="ID_Status" Type="Boolean" Nullable="false" />
+          <Property Name="Descricao" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="tblRegistroChamados" Relationship="Self.FK_ID_StatusChamado_tblRegistroChamados_tblStatus" FromRole="tblStatus" ToRole="tblRegistroChamados" />
+        </EntityType>
+        <Association Name="FK_ID_Categoria_tblRegistroChamados_tblCategoriaChamado">
+          <End Role="tblCategoriaChamado" Type="Self.tblCategoriaChamado" Multiplicity="1" />
+          <End Role="tblRegistroChamados" Type="Self.tblRegistroChamados" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCategoriaChamado">
+              <PropertyRef Name="ID_Categoria" />
+            </Principal>
+            <Dependent Role="tblRegistroChamados">
+              <PropertyRef Name="ID_Categoria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ID_Departamento_tblLocacao_tblDepartamento">
+          <End Role="tblDepartamento" Type="Self.tblDepartamento" Multiplicity="1" />
+          <End Role="tblLocacao" Type="Self.tblLocacao" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblDepartamento">
+              <PropertyRef Name="ID_Departamento" />
+            </Principal>
+            <Dependent Role="tblLocacao">
+              <PropertyRef Name="ID_Departamento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ID_Departamento_tblRegistroChamados_tblDepartamento">
+          <End Role="tblDepartamento" Type="Self.tblDepartamento" Multiplicity="1" />
+          <End Role="tblRegistroChamados" Type="Self.tblRegistroChamados" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblDepartamento">
+              <PropertyRef Name="ID_Departamento" />
+            </Principal>
+            <Dependent Role="tblRegistroChamados">
+              <PropertyRef Name="ID_Departamento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ID_Departamento_tblLocacao_tblImpressora">
+          <End Role="tblImpressora" Type="Self.tblImpressora" Multiplicity="1" />
+          <End Role="tblLocacao" Type="Self.tblLocacao" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblImpressora">
+              <PropertyRef Name="ID_Impressora" />
+            </Principal>
+            <Dependent Role="tblLocacao">
+              <PropertyRef Name="ID_Impressora" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ID_Departamento_tblRegistroChamados_tblImpressora">
+          <End Role="tblImpressora" Type="Self.tblImpressora" Multiplicity="1" />
+          <End Role="tblRegistroChamados" Type="Self.tblRegistroChamados" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblImpressora">
+              <PropertyRef Name="ID_Impressora" />
+            </Principal>
+            <Dependent Role="tblRegistroChamados">
+              <PropertyRef Name="ID_Impressora" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ID_Seccional_tblLocacao_tblSeccional">
+          <End Role="tblSeccional" Type="Self.tblSeccional" Multiplicity="1" />
+          <End Role="tblLocacao" Type="Self.tblLocacao" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblSeccional">
+              <PropertyRef Name="ID_Seccional" />
+            </Principal>
+            <Dependent Role="tblLocacao">
+              <PropertyRef Name="ID_Seccional" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ID_Seccional_tblRegistroChamados_tblSeccional">
+          <End Role="tblSeccional" Type="Self.tblSeccional" Multiplicity="1" />
+          <End Role="tblRegistroChamados" Type="Self.tblRegistroChamados" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblSeccional">
+              <PropertyRef Name="ID_Seccional" />
+            </Principal>
+            <Dependent Role="tblRegistroChamados">
+              <PropertyRef Name="ID_Seccional" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ID_StatusChamado_tblRegistroChamados_tblStatus">
+          <End Role="tblStatus" Type="Self.tblStatus" Multiplicity="1" />
+          <End Role="tblRegistroChamados" Type="Self.tblRegistroChamados" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblStatus">
+              <PropertyRef Name="ID_Status" />
+            </Principal>
+            <Dependent Role="tblRegistroChamados">
+              <PropertyRef Name="ID_Status" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="dbChamadosImpressoraEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tblCategoriaChamado" EntityType="Self.tblCategoriaChamado" />
+          <EntitySet Name="tblDepartamento" EntityType="Self.tblDepartamento" />
+          <EntitySet Name="tblImpressora" EntityType="Self.tblImpressora" />
+          <EntitySet Name="tblLocacao" EntityType="Self.tblLocacao" />
+          <EntitySet Name="tblRegistroChamados" EntityType="Self.tblRegistroChamados" />
+          <EntitySet Name="tblSeccional" EntityType="Self.tblSeccional" />
+          <EntitySet Name="tblStatus" EntityType="Self.tblStatus" />
+          <AssociationSet Name="FK_ID_Categoria_tblRegistroChamados_tblCategoriaChamado" Association="Self.FK_ID_Categoria_tblRegistroChamados_tblCategoriaChamado">
+            <End Role="tblCategoriaChamado" EntitySet="tblCategoriaChamado" />
+            <End Role="tblRegistroChamados" EntitySet="tblRegistroChamados" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ID_Departamento_tblLocacao_tblDepartamento" Association="Self.FK_ID_Departamento_tblLocacao_tblDepartamento">
+            <End Role="tblDepartamento" EntitySet="tblDepartamento" />
+            <End Role="tblLocacao" EntitySet="tblLocacao" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ID_Departamento_tblRegistroChamados_tblDepartamento" Association="Self.FK_ID_Departamento_tblRegistroChamados_tblDepartamento">
+            <End Role="tblDepartamento" EntitySet="tblDepartamento" />
+            <End Role="tblRegistroChamados" EntitySet="tblRegistroChamados" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ID_Departamento_tblLocacao_tblImpressora" Association="Self.FK_ID_Departamento_tblLocacao_tblImpressora">
+            <End Role="tblImpressora" EntitySet="tblImpressora" />
+            <End Role="tblLocacao" EntitySet="tblLocacao" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ID_Departamento_tblRegistroChamados_tblImpressora" Association="Self.FK_ID_Departamento_tblRegistroChamados_tblImpressora">
+            <End Role="tblImpressora" EntitySet="tblImpressora" />
+            <End Role="tblRegistroChamados" EntitySet="tblRegistroChamados" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ID_Seccional_tblLocacao_tblSeccional" Association="Self.FK_ID_Seccional_tblLocacao_tblSeccional">
+            <End Role="tblSeccional" EntitySet="tblSeccional" />
+            <End Role="tblLocacao" EntitySet="tblLocacao" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ID_Seccional_tblRegistroChamados_tblSeccional" Association="Self.FK_ID_Seccional_tblRegistroChamados_tblSeccional">
+            <End Role="tblSeccional" EntitySet="tblSeccional" />
+            <End Role="tblRegistroChamados" EntitySet="tblRegistroChamados" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ID_StatusChamado_tblRegistroChamados_tblStatus" Association="Self.FK_ID_StatusChamado_tblRegistroChamados_tblStatus">
+            <End Role="tblStatus" EntitySet="tblStatus" />
+            <End Role="tblRegistroChamados" EntitySet="tblRegistroChamados" />
+          </AssociationSet>
+          <FunctionImport Name="spBuscaCategoriaChamado" ReturnType="Collection(dbChamadosImpressoraModel.spBuscaCategoriaChamado_Result)" />
+          <FunctionImport Name="spBuscaDepartamentosPorSeccional" ReturnType="Collection(dbChamadosImpressoraModel.spBuscaDepartamentosPorSeccional_Result)">
+            <Parameter Name="ID_Seccional" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spBuscaImpressorasPorDepartamento" ReturnType="Collection(dbChamadosImpressoraModel.spBuscaImpressorasPorDepartamento_Result)">
+            <Parameter Name="ID_Seccional" Mode="In" Type="Int32" />
+            <Parameter Name="ID_Departamento" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spBuscaSeccionais" ReturnType="Collection(dbChamadosImpressoraModel.spBuscaSeccionais_Result)" />
+          <FunctionImport Name="spConsultaChamados" ReturnType="Collection(dbChamadosImpressoraModel.spConsultaChamados_Result)" />
+          <FunctionImport Name="spConsultaChamadosPorId" ReturnType="Collection(dbChamadosImpressoraModel.spConsultaChamadosPorId_Result)">
+            <Parameter Name="ID_Chamado" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spConsultaChamadosPorNomeSeccional" ReturnType="Collection(dbChamadosImpressoraModel.spConsultaChamadosPorNomeSeccional_Result)">
+            <Parameter Name="Nome" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spFinalizaChamado" ReturnType="Collection(Int32)">
+            <Parameter Name="ID_Chamado" Mode="In" Type="Int32" />
+            <Parameter Name="Observacao" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spRegistraChamado">
+            <Parameter Name="ID_Chamado" Mode="In" Type="Int32" />
+            <Parameter Name="ID_Seccional" Mode="In" Type="Int32" />
+            <Parameter Name="ID_Departamento" Mode="In" Type="Int32" />
+            <Parameter Name="ID_Impressora" Mode="In" Type="Int32" />
+            <Parameter Name="ID_CategoriaChamado" Mode="In" Type="Int32" />
+            <Parameter Name="DescricaoChamado" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="spBuscaCategoriaChamado_Result">
+          <Property Type="Int32" Name="ID_Categoria" Nullable="false" />
+          <Property Type="String" Name="Descricao" Nullable="false" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="spBuscaDepartamentosPorSeccional_Result">
+          <Property Type="Int32" Name="ID_Departamento" Nullable="false" />
+          <Property Type="String" Name="Departamento" Nullable="false" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="spBuscaImpressorasPorDepartamento_Result">
+          <Property Type="Int32" Name="ID_Impressora" Nullable="false" />
+          <Property Type="String" Name="Impressora" Nullable="false" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="spBuscaSeccionais_Result">
+          <Property Type="Int32" Name="ID_Seccional" Nullable="false" />
+          <Property Type="String" Name="Nome" Nullable="false" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="spConsultaChamados_Result">
+          <Property Type="Int32" Name="ID_Chamado" Nullable="false" />
+          <Property Type="Int32" Name="ID_Seccional" Nullable="false" />
+          <Property Type="String" Name="Seccional" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="ID_Departamento" Nullable="false" />
+          <Property Type="String" Name="Departamento" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="ID_Impressora" Nullable="false" />
+          <Property Type="String" Name="Impressora" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="ID_Categoria" Nullable="false" />
+          <Property Type="String" Name="Categoria" Nullable="false" MaxLength="100" />
+          <Property Type="Boolean" Name="ID_Status" Nullable="false" />
+          <Property Type="String" Name="Status" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Descricao" Nullable="false" />
+          <Property Type="String" Name="Observacao" Nullable="true" />
+          <Property Type="DateTime" Name="DataAberturaChamado" Nullable="true" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="spConsultaChamadosPorId_Result">
+          <Property Type="Int32" Name="ID_Chamado" Nullable="false" />
+          <Property Type="Int32" Name="ID_Seccional" Nullable="false" />
+          <Property Type="String" Name="Seccional" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="ID_Departamento" Nullable="false" />
+          <Property Type="String" Name="Departamento" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="ID_Impressora" Nullable="false" />
+          <Property Type="String" Name="Impressora" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="ID_Categoria" Nullable="false" />
+          <Property Type="String" Name="Categoria" Nullable="false" MaxLength="100" />
+          <Property Type="Boolean" Name="ID_Status" Nullable="false" />
+          <Property Type="String" Name="Status" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Descricao" Nullable="false" />
+          <Property Type="String" Name="Observacao" Nullable="true" />
+          <Property Type="DateTime" Name="DataAberturaChamado" Nullable="true" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="spConsultaChamadosPorNomeSeccional_Result">
+          <Property Type="Int32" Name="ID_Chamado" Nullable="false" />
+          <Property Type="Int32" Name="ID_Seccional" Nullable="false" />
+          <Property Type="String" Name="Seccional" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="ID_Departamento" Nullable="false" />
+          <Property Type="String" Name="Departamento" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="ID_Impressora" Nullable="false" />
+          <Property Type="String" Name="Impressora" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="ID_Categoria" Nullable="false" />
+          <Property Type="String" Name="Categoria" Nullable="false" MaxLength="100" />
+          <Property Type="Boolean" Name="ID_Status" Nullable="false" />
+          <Property Type="String" Name="Status" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Descricao" Nullable="false" />
+          <Property Type="String" Name="Observacao" Nullable="true" />
+          <Property Type="DateTime" Name="DataAberturaChamado" Nullable="true" Precision="23" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="dbChamadosImpressoraModelStoreContainer" CdmEntityContainer="dbChamadosImpressoraEntities">
+          <EntitySetMapping Name="tblCategoriaChamado">
+            <EntityTypeMapping TypeName="dbChamadosImpressoraModel.tblCategoriaChamado">
+              <MappingFragment StoreEntitySet="tblCategoriaChamado">
+                <ScalarProperty Name="ID_Categoria" ColumnName="ID_Categoria" />
+                <ScalarProperty Name="Descricao" ColumnName="Descricao" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblDepartamento">
+            <EntityTypeMapping TypeName="dbChamadosImpressoraModel.tblDepartamento">
+              <MappingFragment StoreEntitySet="tblDepartamento">
+                <ScalarProperty Name="ID_Departamento" ColumnName="ID_Departamento" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="DataDeCadastro" ColumnName="DataDeCadastro" />
+                <ScalarProperty Name="DataUltimaAlteracao" ColumnName="DataUltimaAlteracao" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblImpressora">
+            <EntityTypeMapping TypeName="dbChamadosImpressoraModel.tblImpressora">
+              <MappingFragment StoreEntitySet="tblImpressora">
+                <ScalarProperty Name="ID_Impressora" ColumnName="ID_Impressora" />
+                <ScalarProperty Name="Modelo" ColumnName="Modelo" />
+                <ScalarProperty Name="DataDeCadastro" ColumnName="DataDeCadastro" />
+                <ScalarProperty Name="DataUltimaAlteracao" ColumnName="DataUltimaAlteracao" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblLocacao">
+            <EntityTypeMapping TypeName="dbChamadosImpressoraModel.tblLocacao">
+              <MappingFragment StoreEntitySet="tblLocacao">
+                <ScalarProperty Name="ID_Locacao" ColumnName="ID_Locacao" />
+                <ScalarProperty Name="ID_Seccional" ColumnName="ID_Seccional" />
+                <ScalarProperty Name="ID_Departamento" ColumnName="ID_Departamento" />
+                <ScalarProperty Name="ID_Impressora" ColumnName="ID_Impressora" />
+                <ScalarProperty Name="DataDeCadastro" ColumnName="DataDeCadastro" />
+                <ScalarProperty Name="DataUltimaAlteracao" ColumnName="DataUltimaAlteracao" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblRegistroChamados">
+            <EntityTypeMapping TypeName="dbChamadosImpressoraModel.tblRegistroChamados">
+              <MappingFragment StoreEntitySet="tblRegistroChamados">
+                <ScalarProperty Name="ID_Chamado" ColumnName="ID_Chamado" />
+                <ScalarProperty Name="ID_Seccional" ColumnName="ID_Seccional" />
+                <ScalarProperty Name="ID_Departamento" ColumnName="ID_Departamento" />
+                <ScalarProperty Name="ID_Impressora" ColumnName="ID_Impressora" />
+                <ScalarProperty Name="ID_Categoria" ColumnName="ID_Categoria" />
+                <ScalarProperty Name="Descricao" ColumnName="Descricao" />
+                <ScalarProperty Name="Observacao" ColumnName="Observacao" />
+                <ScalarProperty Name="ID_Status" ColumnName="ID_Status" />
+                <ScalarProperty Name="DataAberturaChamado" ColumnName="DataAberturaChamado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblSeccional">
+            <EntityTypeMapping TypeName="dbChamadosImpressoraModel.tblSeccional">
+              <MappingFragment StoreEntitySet="tblSeccional">
+                <ScalarProperty Name="ID_Seccional" ColumnName="ID_Seccional" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="DataDeCadastro" ColumnName="DataDeCadastro" />
+                <ScalarProperty Name="DataUltimaAlteracao" ColumnName="DataUltimaAlteracao" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblStatus">
+            <EntityTypeMapping TypeName="dbChamadosImpressoraModel.tblStatus">
+              <MappingFragment StoreEntitySet="tblStatus">
+                <ScalarProperty Name="ID_Status" ColumnName="ID_Status" />
+                <ScalarProperty Name="Descricao" ColumnName="Descricao" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spBuscaCategoriaChamado" FunctionName="dbChamadosImpressoraModel.Store.spBuscaCategoriaChamado">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dbChamadosImpressoraModel.spBuscaCategoriaChamado_Result">
+                <ScalarProperty Name="ID_Categoria" ColumnName="ID_Categoria" />
+                <ScalarProperty Name="Descricao" ColumnName="Descricao" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spBuscaDepartamentosPorSeccional" FunctionName="dbChamadosImpressoraModel.Store.spBuscaDepartamentosPorSeccional">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dbChamadosImpressoraModel.spBuscaDepartamentosPorSeccional_Result">
+                <ScalarProperty Name="ID_Departamento" ColumnName="ID_Departamento" />
+                <ScalarProperty Name="Departamento" ColumnName="Departamento" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spBuscaImpressorasPorDepartamento" FunctionName="dbChamadosImpressoraModel.Store.spBuscaImpressorasPorDepartamento">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dbChamadosImpressoraModel.spBuscaImpressorasPorDepartamento_Result">
+                <ScalarProperty Name="ID_Impressora" ColumnName="ID_Impressora" />
+                <ScalarProperty Name="Impressora" ColumnName="Impressora" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spBuscaSeccionais" FunctionName="dbChamadosImpressoraModel.Store.spBuscaSeccionais">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dbChamadosImpressoraModel.spBuscaSeccionais_Result">
+                <ScalarProperty Name="ID_Seccional" ColumnName="ID_Seccional" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaChamados" FunctionName="dbChamadosImpressoraModel.Store.spConsultaChamados">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dbChamadosImpressoraModel.spConsultaChamados_Result">
+                <ScalarProperty Name="ID_Chamado" ColumnName="ID_Chamado" />
+                <ScalarProperty Name="ID_Seccional" ColumnName="ID_Seccional" />
+                <ScalarProperty Name="Seccional" ColumnName="Seccional" />
+                <ScalarProperty Name="ID_Departamento" ColumnName="ID_Departamento" />
+                <ScalarProperty Name="Departamento" ColumnName="Departamento" />
+                <ScalarProperty Name="ID_Impressora" ColumnName="ID_Impressora" />
+                <ScalarProperty Name="Impressora" ColumnName="Impressora" />
+                <ScalarProperty Name="ID_Categoria" ColumnName="ID_Categoria" />
+                <ScalarProperty Name="Categoria" ColumnName="Categoria" />
+                <ScalarProperty Name="ID_Status" ColumnName="ID_Status" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Descricao" ColumnName="Descricao" />
+                <ScalarProperty Name="Observacao" ColumnName="Observacao" />
+                <ScalarProperty Name="DataAberturaChamado" ColumnName="DataAberturaChamado" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaChamadosPorId" FunctionName="dbChamadosImpressoraModel.Store.spConsultaChamadosPorId">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dbChamadosImpressoraModel.spConsultaChamadosPorId_Result">
+                <ScalarProperty Name="ID_Chamado" ColumnName="ID_Chamado" />
+                <ScalarProperty Name="ID_Seccional" ColumnName="ID_Seccional" />
+                <ScalarProperty Name="Seccional" ColumnName="Seccional" />
+                <ScalarProperty Name="ID_Departamento" ColumnName="ID_Departamento" />
+                <ScalarProperty Name="Departamento" ColumnName="Departamento" />
+                <ScalarProperty Name="ID_Impressora" ColumnName="ID_Impressora" />
+                <ScalarProperty Name="Impressora" ColumnName="Impressora" />
+                <ScalarProperty Name="ID_Categoria" ColumnName="ID_Categoria" />
+                <ScalarProperty Name="Categoria" ColumnName="Categoria" />
+                <ScalarProperty Name="ID_Status" ColumnName="ID_Status" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Descricao" ColumnName="Descricao" />
+                <ScalarProperty Name="Observacao" ColumnName="Observacao" />
+                <ScalarProperty Name="DataAberturaChamado" ColumnName="DataAberturaChamado" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spConsultaChamadosPorNomeSeccional" FunctionName="dbChamadosImpressoraModel.Store.spConsultaChamadosPorNomeSeccional">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dbChamadosImpressoraModel.spConsultaChamadosPorNomeSeccional_Result">
+                <ScalarProperty Name="ID_Chamado" ColumnName="ID_Chamado" />
+                <ScalarProperty Name="ID_Seccional" ColumnName="ID_Seccional" />
+                <ScalarProperty Name="Seccional" ColumnName="Seccional" />
+                <ScalarProperty Name="ID_Departamento" ColumnName="ID_Departamento" />
+                <ScalarProperty Name="Departamento" ColumnName="Departamento" />
+                <ScalarProperty Name="ID_Impressora" ColumnName="ID_Impressora" />
+                <ScalarProperty Name="Impressora" ColumnName="Impressora" />
+                <ScalarProperty Name="ID_Categoria" ColumnName="ID_Categoria" />
+                <ScalarProperty Name="Categoria" ColumnName="Categoria" />
+                <ScalarProperty Name="ID_Status" ColumnName="ID_Status" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Descricao" ColumnName="Descricao" />
+                <ScalarProperty Name="Observacao" ColumnName="Observacao" />
+                <ScalarProperty Name="DataAberturaChamado" ColumnName="DataAberturaChamado" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spFinalizaChamado" FunctionName="dbChamadosImpressoraModel.Store.spFinalizaChamado" />
+          <FunctionImportMapping FunctionImportName="spRegistraChamado" FunctionName="dbChamadosImpressoraModel.Store.spRegistraChamado" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
