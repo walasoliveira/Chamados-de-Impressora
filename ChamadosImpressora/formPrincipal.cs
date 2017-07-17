@@ -166,14 +166,14 @@ namespace ChamadosImpressora
             dt.Columns.Add("Observação");
             dt.Columns.Add("Data de Abertura");
             int val;
-            if (tscbOpcoes.SelectedIndex == 1 && (!string.IsNullOrEmpty(tstbPesquisar.Text) && !string.IsNullOrWhiteSpace(tstbPesquisar.Text)))
+            if (tscbOpcoes.SelectedIndex == 1)
             {
-                using (dbChamadosImpressoraEntities dbChamado = new dbChamadosImpressoraEntities())
+                if (!string.IsNullOrWhiteSpace(tstbPesquisar.Text) && !int.TryParse(tstbPesquisar.Text, out val))
                 {
-                    var nomeSeccional = tstbPesquisar.Text;
-                    var listaChamados = dbChamado.spConsultaChamadosPorNomeSeccional(nomeSeccional).ToList();
-                    if (listaChamados.Count != 0) //If para validar textBox para validar se a busca retornou uma lista cheia
+                    using (dbChamadosImpressoraEntities dbChamado = new dbChamadosImpressoraEntities())
                     {
+                        var nomeSeccional = tstbPesquisar.Text;
+                        var listaChamados = dbChamado.spConsultaChamadosPorNomeSeccional(nomeSeccional).ToList();
                         foreach (var chamado in listaChamados)
                         {
                             dt.Rows.Add(chamado.ID_Chamado,
@@ -196,43 +196,60 @@ namespace ChamadosImpressora
                         tscbOpcoes.SelectedIndex = 0;
                         SalvaRowDgvChamadosTemp();
                     }
-                    else
-                    {
-                        MessageBox.Show("Chamado não encontrado", "Atenção");
-                    }
+                }
+                else
+                {
+                    MessageBox.Show("Digite um valor válido.", "Atenção");
+                    tscbOpcoes.SelectedIndex = 0;
                 }
             }
-            else if (tscbOpcoes.SelectedIndex == 2 && int.TryParse(tstbPesquisar.Text, out val))
+            else if (tscbOpcoes.SelectedIndex == 2)
             {
-                using (dbChamadosImpressoraEntities dbChamado = new dbChamadosImpressoraEntities())
+                if (int.TryParse(tstbPesquisar.Text, out val))
                 {
-                    var listaChamados = dbChamado.spConsultaChamadosPorId(val).ToList();
-                    foreach (var chamado in listaChamados)
+                    using (dbChamadosImpressoraEntities dbChamado = new dbChamadosImpressoraEntities())
                     {
-                        dt.Rows.Add(chamado.ID_Chamado,
-                            chamado.ID_Seccional,
-                            chamado.Seccional,
-                            chamado.ID_Departamento,
-                            chamado.Departamento,
-                            chamado.ID_Impressora,
-                            chamado.Impressora,
-                            chamado.ID_Categoria,
-                            chamado.Categoria,
-                            chamado.ID_Status,
-                            chamado.Status,
-                            chamado.Descricao,
-                            chamado.Observacao,
-                            chamado.DataAberturaChamado
-                            );
+                        var listaChamados = dbChamado.spConsultaChamadosPorId(val).ToList();
+                        foreach (var chamado in listaChamados)
+                        {
+                            dt.Rows.Add(chamado.ID_Chamado,
+                                chamado.ID_Seccional,
+                                chamado.Seccional,
+                                chamado.ID_Departamento,
+                                chamado.Departamento,
+                                chamado.ID_Impressora,
+                                chamado.Impressora,
+                                chamado.ID_Categoria,
+                                chamado.Categoria,
+                                chamado.ID_Status,
+                                chamado.Status,
+                                chamado.Descricao,
+                                chamado.Observacao,
+                                chamado.DataAberturaChamado
+                                );
+                        }
+                    }
+                    if (dt.Rows.Count != 0)
+                    {
+                        dgvChamados.DataSource = dt;
+                        tscbOpcoes.SelectedIndex = 0;
+                        SalvaRowDgvChamadosTemp();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Não foi encontrado nenhum chamado");
+                        tscbOpcoes.SelectedIndex = 0;
                     }
                 }
-                dgvChamados.DataSource = dt;
-                tscbOpcoes.SelectedIndex = 0;
-                SalvaRowDgvChamadosTemp();
+                else
+                {
+                    MessageBox.Show("Digite um valor válido", "Atenção");
+                    tscbOpcoes.SelectedIndex = 0;
+                }
             }
             else
             {
-                MessageBox.Show("Digite um valor válido", "Atenção");
+                MessageBox.Show("Escolha uma opção para pesquisar", "Atenção");
             }
             tstbPesquisar.Clear();
         }
